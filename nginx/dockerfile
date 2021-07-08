@@ -1,4 +1,4 @@
 FROM nginx
 COPY ./default.conf /etc/nginx/conf.d/
-COPY ../ssl/certificate.crt /etc/nginx/ssl.csr
-COPY ../ssl/private.key /etc/nginx/ssl.key
+COPY ./ssl/certificate.crt /etc/nginx/ssl.csr
+COPY ./ssl/private.key /etc/nginx/ssl.key
