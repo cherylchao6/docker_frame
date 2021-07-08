@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+    nodejs-app:
+        build:
+          context: ./nodejsapp
+        container_name: nodejsserver
+        hostname: localhost
+        ports:
+            - "3000:3000" 
+        networks:
+            - interview-net  
+    nginx:
+        build:
+          context: ./nginx
+        container_name: nginx
+        hostname: nginx
+        ports:
+            - "80:80" 
+        depends_on:
+            - nodejs-app
+        networks:
+            - interview-net
+
+networks:
+  interview-net:
+    external: true
