@@ -5,7 +5,7 @@ services:
         build:
           context: ./nodejsapp
         container_name: nodejsserver
-        hostname: localhost
+        hostname: nodejsserver
         ports:
             - "3000:3000" 
         networks:
