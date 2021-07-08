@@ -1,6 +1,23 @@
+const redis = require("redis");
+const client = redis.createClient();
+
+
+
 const test = async (req, res, next) => {
   try {
-    res.send("hello")
+    let clientip = req.connection.remoteAddress
+    client.get(clientip, function (err, value) {
+      if (!value) {
+        client.setex(clientip, 10, "1");
+        return res.send(`visit my website 1 time`)
+      }
+      else {
+        let valueToNumber = parseInt(value);
+        valueToNumber += 1;
+        client.setex(clientip, 10, `${valueToNumber}`);
+        return res.send(`visit my website ${valueToNumber} times`)
+      }
+    });
   } catch (err) {
     next(err);
   }
