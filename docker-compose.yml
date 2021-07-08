@@ -1,6 +1,17 @@
 version: '3'
 
 services:
+    redis:
+      build:
+        context: ./redis
+      container_name: redis
+      hostname: redis
+      ports:
+          - "6379:6379"
+      depends_on:
+          - nodejs-app
+      networks:
+          - interview-net
     nodejs-app:
         build:
           context: ./nodejsapp
@@ -22,17 +33,6 @@ services:
             - nodejs-app
         networks:
             - interview-net
-    redis:
-      build:
-        context: ./redis
-      container_name: redis
-      hostname: redis
-      ports:
-          - "6379:6379"
-      depends_on:
-          - nodejs-app
-      networks:
-          - interview-net
 
 networks:
   interview-net:
