@@ -1,8 +1,8 @@
-// const redis = require("redis");
-// const client = redis.createClient({
-//   port:6379,
-//   host:'redis'
-// });
+const redis = require("redis");
+const client = redis.createClient({
+  port:6379,
+  host:'redis'
+});
 const test = async (req, res, next) => {
   try {
     let clientip = req.connection.remoteAddress
