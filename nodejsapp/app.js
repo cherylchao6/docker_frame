@@ -1,6 +1,6 @@
 require('dotenv').config();
 const {PORT_TEST, PORT, NODE_ENV} = process.env;
-const port = NODE_ENV == 'test' ? PORT_TEST : PORT;
+const port = NODE_ENV === 'test' ? PORT_TEST : PORT;
 
 // Express Initialization
 const express = require('express');
