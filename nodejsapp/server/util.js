@@ -20,14 +20,15 @@ async function verifyMember (req, res, next) {
     .then((res)=>{
       // authorized member
       console.log(res.status)
-      if (res.staus === 200) {
+      console.log(res.status === 200)
+      if (res.status === 200) {
         req.headers.member = true;
-        next();
       } else {
-        // provide invalid name or password;
+        // provided invalid name or password;
         req.headers.member = false;
       }
     })
+    next();
   }
   //not a member
   req.headers.member = false;

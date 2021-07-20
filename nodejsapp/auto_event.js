@@ -57,7 +57,7 @@ async function insertHeroes(dataArr) {
   })
 }
 
-// insertHeroes();
+insertHeroes();
 async function getHerosProfile (arr) {
   const today = new Date();
   let date = today.toISOString().substring(0, 10);
