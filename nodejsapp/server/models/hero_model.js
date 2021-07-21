@@ -46,10 +46,10 @@ const insertHeroes = async (heroData,heroProfoles) => {
   console.log(redisHero)
   console.log(redisHeroesWithProfile)
   console.log(redisHeroWithProfile)
-  client.set("redisHeroes", redisHeroes);
-  client.set("redisHero", redisHero);
-  client.set("redisHeroesWithProfile", redisHeroesWithProfile);
-  client.set("redisHeroWithProfile", redisHeroWithProfile);
+  client.set("redisHeroes", JSON.stringify(redisHeroes));
+  client.set("redisHero", JSON.stringify(redisHero));
+  client.set("redisHeroesWithProfile", JSON.stringify(redisHeroesWithProfile));
+  client.set("redisHeroWithProfile", JSON.stringify(redisHeroWithProfile));
 };
 
 const selectHeroes = async (requestDetail) => {
