@@ -10,6 +10,8 @@ const { getCache } = require("../util");
 const insertHeroes = async (heroData,heroProfoles) => {
   console.log("insert latest api data into mysql");
   await pool.query("INSERT INTO heroes (hero_id, name, image, date) VALUES ?", [heroData]);
+  //since the 'int' is the conserved world in mysql
+  //use 'inte' to store data in DB instead.
   await pool.query("INSERT INTO profile (hero_id, str, inte, agi, luk, date) VALUES ?", [heroProfoles]);
   let lastestDateResult = await pool.query('SELECT MAX(date) FROM heroes');
   //only select latest data
@@ -17,6 +19,7 @@ const insertHeroes = async (heroData,heroProfoles) => {
   let heroes = await pool.query(`SELECT hero_id as id, name, image FROM heroes WHERE heroes.date = '${lastestDate}'`)
   let heroesWithProfile = await pool.query(`SELECT heroes.hero_id as id, heroes.name, heroes.image, profile.str, profile.inte, profile.agi, profile.luk FROM heroes JOIN profile ON heroes.hero_id = profile.hero_id and heroes.date = profile.date WHERE heroes.date = '${lastestDate}'`);
   for (let i in heroesWithProfile[0]) {
+    //wrap data into required format after select from sql 
     let profile = {
       str: heroesWithProfile[0][i]['str'],
       int: heroesWithProfile[0][i]['inte'],
@@ -29,7 +32,7 @@ const insertHeroes = async (heroData,heroProfoles) => {
     delete heroesWithProfile[0][i]['luk'];
     heroesWithProfile[0][i]['profile'] = profile;
   }
-  //pack up redis data
+  //wrap redis data
   let redisHeroesWithProfile = {
     heroes:heroesWithProfile[0]
   }
@@ -57,7 +60,7 @@ const insertHeroes = async (heroData,heroProfoles) => {
 const selectHeroes = async (requestDetail) => {
   let {heroId, member} = requestDetail;
   let checkCashe = await getCache('redisHeroes')
-  // if there is data in redis, get it redis
+  // if there is data in redis, get it from redis
   if (checkCashe !== null) {
     console.log('get data from redis')
     if (!heroId && !member) {
@@ -116,9 +119,7 @@ const selectHeroes = async (requestDetail) => {
       return data;
     }
     if (heroId && !member) {
-      console.log('controller 3')
       let data = await pool.query(`SELECT hero_id as id, name, image FROM heroes WHERE date = '${lastestDate}' and hero_id = ${heroId}`);
-      console.log(data[0])
       return data[0][0];
     }
     if (heroId && member) {
@@ -138,7 +139,6 @@ const selectHeroes = async (requestDetail) => {
     }
   }
 };
-
 
 
 
