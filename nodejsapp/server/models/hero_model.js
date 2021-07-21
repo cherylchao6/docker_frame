@@ -1,10 +1,10 @@
 const { pool } = require("./mysql");
 const redis = require("redis");
-// const client = redis.createClient({
-//   port:6379,
-//   host:'redis'
-// });
-const client = redis.createClient('6379');
+const client = redis.createClient({
+  port:6379,
+  host:'redis'
+});
+// const client = redis.createClient('6379');
 const { getCache } = require("../util");
 
 const insertHeroes = async (heroData,heroProfoles) => {
