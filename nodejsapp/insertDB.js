@@ -33,6 +33,7 @@ async function insertHeroes(dataArr) {
   .then(async(res)=>{
     let data = await res.json();
     //insert into mysql 
+    console.log(data);
     let heroesData = [];
     let apiHeroIdArr = [];
     const today = new Date();
@@ -50,6 +51,8 @@ async function insertHeroes(dataArr) {
     }
     //iterate apiHeroIdArr and get profile for each hero
     let heroProfiles = await getHerosProfile(apiHeroIdArr);
+    console.log('54')
+    console.log(heroesData);
     await Heroes.insertHeroes(heroesData,heroProfiles);
   })
   .catch((err)=>{
