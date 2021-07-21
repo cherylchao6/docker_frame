@@ -14,6 +14,7 @@ app.use(express.urlencoded({extended:true}));
 
 // Routes:
 app.use(require("./server/routes/test_route.js"));
+app.use(require("./server/routes/hero_route.js"));
 // Page not found
 app.use(function(req, res, next) {
   res.status(404).send('No this page');;
@@ -25,7 +26,7 @@ app.use(function(err, req, res, next) {
   res.status(500).send('Internal Server Error');
 });
 
-if (NODE_ENV != 'production'){
+if (NODE_ENV != 'test'){
   app.listen(port, () => {console.log(`Listening on port: ${port}`);});
 }
 

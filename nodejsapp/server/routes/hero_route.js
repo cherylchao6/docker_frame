@@ -1,12 +1,12 @@
 const express = require("express");
 const router = express.Router();
+const {verifyMember} = require("../util");
 
 router.use(express.json());
 router.use(express.urlencoded({ extended: false }));
-const { test } = require("../controllers/test_controller");
+const { getHeroes } = require("../controllers/hero_controller");
 
-
-router.get("/", test);
+router.get(["/heroes/:heroId","/heroes"], verifyMember, getHeroes);
 
 
 module.exports = router;
