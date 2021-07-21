@@ -1,11 +1,11 @@
 const fetch = require('node-fetch');
 const { insertHeroes } = require("../server/models/hero_model.js");
 const redis = require("redis");
-// const client = redis.createClient({
-//   port:6379,
-//   host:'redis'
-// });
-const client = redis.createClient('6379');
+const client = redis.createClient({
+  port:6379,
+  host:'redis'
+});
+// const client = redis.createClient('6379');
 
 async function verifyMember (req, res, next) {
   const {name, password}= req.headers;
