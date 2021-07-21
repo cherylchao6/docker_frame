@@ -2,7 +2,7 @@ require('dotenv').config();
 const mysql = require("mysql2/promise");
 
 const env = process.env.NODE_ENV || "test";
-console.log(env)
+
 const { DB_HOST, DB_USER, DB_PWD, DB_DB, DB_DB_TEST } = process.env;
 
 const mysqlConfig = {

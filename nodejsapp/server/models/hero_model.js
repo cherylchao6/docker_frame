@@ -57,9 +57,11 @@ const insertHeroes = async (heroData,heroProfoles) => {
   client.set("redisHeroWithProfile", JSON.stringify(redisHeroWithProfile));
 };
 
+
 const selectHeroes = async (requestDetail) => {
+  const { getCache } = require("../util");
   let {heroId, member} = requestDetail;
-  let checkCashe = await getCache('redisHeroes')
+  let checkCashe = await getCache('redisHeroes');
   // if there is data in redis, get it from redis
   if (checkCashe !== null) {
     console.log('get data from redis')
