@@ -4,7 +4,6 @@ const getHeroes = async (req, res, next) => {
   try {
     let requestDetail = {};
     let heroId = req.params.heroId;
-    console.log(heroId)
     if (!heroId && req.headers.member) {
       requestDetail = {
         member: true

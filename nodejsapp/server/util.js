@@ -1,11 +1,6 @@
 const fetch = require('node-fetch');
 const { insertHeroes } = require("../server/models/hero_model.js");
-const redis = require("redis");
-const client = redis.createClient({
-  port:6379,
-  host:'redis'
-});
-// const client = redis.createClient('6379');
+
 
 async function verifyMember (req, res, next) {
   const {name, password}= req.headers;
@@ -22,7 +17,6 @@ async function verifyMember (req, res, next) {
     })
     .then((reply)=>{
       // authorized member
-      console.log(reply.status === 200)
       if (reply.status === 200) {
         req.headers.member = true;
       } else {
@@ -38,14 +32,7 @@ async function verifyMember (req, res, next) {
   }
 }
 
-function getCache (key) { // used in async function
-  return new Promise((resolve, reject) => {
-      client.get(key, (err, data) => {
-          if (err) reject(err);
-          resolve(data);
-      });
-  });
-}
+
 
 async function insertApiData () {
   await fetch('https://hahow-recruit.herokuapp.com/heroes',{
@@ -105,6 +92,5 @@ async function getHerosProfile (arr) {
 
 module.exports = {
   verifyMember,
-  getCache,
   insertApiData
 };
