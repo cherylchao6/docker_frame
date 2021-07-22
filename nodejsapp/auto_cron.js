@@ -2,10 +2,12 @@ const cron = require('node-cron');
 const fetch = require('node-fetch');
 const { pool } = require('./server/models/mysql.js');
 const { insertApiData } = require('./server/util')
+require('dotenv').config();
 
-
+const {UPDATE_DATA_FREQENCY} = process.env;
+console.log(UPDATE_DATA_FREQENCY)
 //check if there are new heroes everydaynode
-cron.schedule("*/2 * * * * *", async () => {
+cron.schedule(UPDATE_DATA_FREQENCY, async () => {
   //check heroes data 
   await fetch('https://hahow-recruit.herokuapp.com/heroes',{
     method: "GET",
