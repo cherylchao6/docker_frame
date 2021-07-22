@@ -135,7 +135,11 @@ const selectHeroes = async (requestDetail) => {
       return data[0][0];
     }
     if (heroId && member) {
-      let data = await pool.query(`SELECT heroes.hero_id as id, heroes.name, heroes.image, profile.str, profile.inte, profile.agi, profile.luk FROM heroes JOIN profile ON heroes.hero_id = profile.hero_id and heroes.date = profile.date WHERE heroes.date = '${lastestDate}' and heroes.hero_id = ${heroId}`);
+      let data = await pool.query(`SELECT heroes.hero_id as id, heroes.name, heroes.image, profile.str, profile.inte, profile.agi, profile.luk FROM heroes JOIN profile ON heroes.hero_id = profile.hero_id and heroes.date = profile.date WHERE heroes.date = '${lastestDate}' and heroes.hero_id = '${heroId}'`);
+      console.log(data[0]);
+      if (data[0].length === 0) {
+        return
+      }
       let profile = {
         str: data[0][0]['str'],
         int: data[0][0]['inte'],
