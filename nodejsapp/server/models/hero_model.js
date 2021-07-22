@@ -92,7 +92,7 @@ const selectHeroes = async (requestDetail) => {
     }
     if (heroId && member) {
       let unparsedData = await getCache("redisHeroWithProfile");
-      let allHeroes = JSON.parse(unparsedData);
+      let allHeroes = JSON.parse(unparsedData);``
       let id = heroId.toString();
       let heroData = allHeroes[id];
       return heroData
