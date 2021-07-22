@@ -1,3 +1,3 @@
 #!/bin/bash
 pm2-runtime app.js
-node insertDB.js
+sudo node insertDB.js
