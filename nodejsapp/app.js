@@ -30,5 +30,5 @@ if (NODE_ENV != 'test'){
   app.listen(port, () => {console.log(`Listening on port: ${port}`);});
 }
 
-console.log('hi')
+
 module.exports = app;

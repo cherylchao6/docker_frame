@@ -54,7 +54,6 @@ async function insertApiData () {
   .then(async(res)=>{
     let data = await res.json();
     //insert into mysql 
-    console.log(data);
     let heroesData = [];
     let apiHeroIdArr = [];
     const today = new Date();
