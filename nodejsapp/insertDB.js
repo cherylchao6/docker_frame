@@ -1,7 +1,3 @@
-const { insertApiData } = require('./server/util')
+const { insertApiData } = require("./server/util");
 
 insertApiData();
-
-
-
-

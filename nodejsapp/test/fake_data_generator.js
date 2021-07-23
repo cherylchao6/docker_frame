@@ -3,18 +3,16 @@ const { NODE_ENV } = process.env;
 
 const InsertDB = require("./fake_data");
 
-
 const { pool } = require("../server/models/mysql");
 
 async function _insertHeroes () {
-  console.log('insert Data')
+  console.log("insert Data");
   await pool.query("INSERT INTO heroes (hero_id, name, image, date) VALUES ?", [InsertDB.mysqlHeroes]);
   await pool.query("INSERT INTO profile (hero_id, str, inte, agi, luk, date) VALUES ?", [InsertDB.mysqlProfiles]);
-  return;
 }
 
 async function createFakeData () {
-  console.log('createFakeData')
+  console.log("createFakeData");
   if (NODE_ENV !== "test") {
     console.log("Not in test env");
     return;
@@ -26,7 +24,7 @@ async function truncateFakeData () {
     console.log("Not in test env");
     return;
   }
-  console.log('truncate table');
+  console.log("truncate table");
   const truncateTable = async (table) => {
     const conn = await pool.getConnection();
     await conn.query("START TRANSACTION");
@@ -62,5 +60,3 @@ module.exports = {
   truncateFakeData,
   closeConnection
 };
-
-
