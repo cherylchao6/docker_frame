@@ -2,21 +2,12 @@ require("dotenv").config();
 const { NODE_ENV } = process.env;
 
 const InsertDB = require("./fake_data");
-// console.log(InsertDB);
 
-// const {
-//   mysqlheroes,
-//   mysqlProfiles
-// } = require("./fake_data");
-
-console.log("hihi")
-// console.log(mysqlheroes);
 
 const { pool } = require("../server/models/mysql");
 
 async function _insertHeroes () {
   console.log('insert Data')
-  // console.log(InsertDB)
   await pool.query("INSERT INTO heroes (hero_id, name, image, date) VALUES ?", [InsertDB.mysqlHeroes]);
   await pool.query("INSERT INTO profile (hero_id, str, inte, agi, luk, date) VALUES ?", [InsertDB.mysqlProfiles]);
   return;

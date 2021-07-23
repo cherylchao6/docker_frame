@@ -1,3 +1,4 @@
+//This is a route for me to quckly test if redis works in the homepage
 const express = require("express");
 const router = express.Router();
 

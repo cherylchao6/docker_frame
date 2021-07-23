@@ -92,7 +92,7 @@ const selectHeroes = async (requestDetail) => {
     }
     if (heroId && member) {
       let unparsedData = await getCache("redisHeroWithProfile");
-      let allHeroes = JSON.parse(unparsedData);``
+      let allHeroes = JSON.parse(unparsedData);
       let id = heroId.toString();
       let heroData = allHeroes[id];
       return heroData
@@ -131,11 +131,11 @@ const selectHeroes = async (requestDetail) => {
       return data;
     }
     if (heroId && !member) {
-      let data = await pool.query(`SELECT hero_id as id, name, image FROM heroes WHERE date = '${lastestDate}' and hero_id = ${heroId}`);
+      let data = await pool.query(`SELECT hero_id as id, name, image FROM heroes WHERE date = '${lastestDate}' and hero_id = ?`,heroId);
       return data[0][0];
     }
     if (heroId && member) {
-      let data = await pool.query(`SELECT heroes.hero_id as id, heroes.name, heroes.image, profile.str, profile.inte, profile.agi, profile.luk FROM heroes JOIN profile ON heroes.hero_id = profile.hero_id and heroes.date = profile.date WHERE heroes.date = '${lastestDate}' and heroes.hero_id = '${heroId}'`);
+      let data = await pool.query(`SELECT heroes.hero_id as id, heroes.name, heroes.image, profile.str, profile.inte, profile.agi, profile.luk FROM heroes JOIN profile ON heroes.hero_id = profile.hero_id and heroes.date = profile.date WHERE heroes.date = '${lastestDate}' and heroes.hero_id = ?`,heroId);
       if (data[0].length === 0) {
         return
       }

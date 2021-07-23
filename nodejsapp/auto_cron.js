@@ -5,8 +5,8 @@ const { insertApiData } = require('./server/util')
 require('dotenv').config();
 
 const {UPDATE_DATA_FREQENCY} = process.env;
-console.log(UPDATE_DATA_FREQENCY)
-//check if there are new heroes everydaynode
+
+//check if there are new heroes everyday
 cron.schedule(UPDATE_DATA_FREQENCY, async () => {
   //check heroes data 
   await fetch('https://hahow-recruit.herokuapp.com/heroes',{
@@ -41,6 +41,7 @@ cron.schedule(UPDATE_DATA_FREQENCY, async () => {
   })
 })
 
+//get each hero profile 
 async function getHerosProfile (arr) {
   let heroProfiles = [];
   for (let i in arr) {
