@@ -247,9 +247,7 @@ const client = redis.createClient({
 
 
 ### node.js server dockerfile 的啟動需要不只一個指令
-一開始我採用 CMD ["node", "app.js"]，但我的設計邏輯為第一次啟動 server 時，同時也要執行拿取英雄資料並插入資料庫的腳本， 我也花了好一番功夫（畢竟我跟 shell 真的好不熟，只會一些基本的指令，研究的時候真的霧裡看花），才找到可以另外建立一個 start.sh 的檔案，然後再 CMD ["bash", "start.sh"]，等於是開啟了一個 shell 來執行該腳本，但又遇到了問題，當我第一步 node app.js時，他就會佔住該 shell ，沒辦法
-一開始我採用 CMD ["node", "app.js"]，但我的設計邏輯為第一次啟動 server 時，同時也要執行拿取英雄資料並插入資料庫的腳本， 我也花了好一番功夫（畢竟我跟 shell 真的好不熟，只會一些基本的指令，研究的時候真的霧裡看花），才找到可以另外建立一個 start.sh 的檔案，然後再 CMD ["bash", "start.sh"]，等於是開啟了一個 shell 來執行該腳本，但又遇到了問題，當我第一步 node app.js時，他就會佔住該 shell ，沒半ㄈㄚㄐ
-一開始我採用 CMD ["node", "app.js"]，但我的設計邏輯為第一次啟動 server 時，同時也要執行拿取英雄資料並插入資料庫的腳本， 我也花了好一番功夫（畢竟我跟 shell 真的好不熟，只會一些基本的指令，研究的時候真的霧裡看花），才找到可以另外建立一個 start.sh 的檔案，然後再 CMD ["bash", "start.sh"]，等於是開啟了一個 shell 來執行該腳本，很開心的試試看
+一開始我採用 CMD ["node", "app.js"]，但我的設計邏輯為第一次啟動 server 時，同時也要執行拿取英雄資料並插入資料庫的腳本， 我也花了好一番功夫（畢竟我跟 shell 真的好不熟，只會一些基本的指令，研究的時候真的霧裡看花），才找到可以另外建立一個 start.sh 的檔案，然後再 CMD ["bash", "start.sh"]，等於是開啟了一個 shell 來執行該腳本， 很開心的試試看
 ```bash
 node app.js
 node insert_db.js 
@@ -264,6 +262,6 @@ node insert_db.js
 
 ### 待改善之處
 
-- test 撰寫：
+- test 撰寫：這部分我只寫了最基本的判斷 response 是否正確，而且只有加入 mysql 來進行 integration test ，但以我的設計邏輯來說，還要加入 redis ，撰寫 test 的能力尚待加強
 
-這部分我只寫了最基本的判斷 response 是否正確，而且只有加入 mysql 來進行 integration test ，但以我的設計邏輯來說，還要加入 redis
+
