@@ -15,7 +15,7 @@ git clone https://github.com/cherylchao6/hahow_homework.git
 ```bash
 hahow_homework
 ├── docker-compose.yml                 
-├── hero_web.sql                      ＃提供您 import至RDS mysql
+├── hero_web.sql                      ＃ 提供您 import至RDS mysql
 ├── nginx
 │   ├── default.conf
 │   ├── dockerfile
@@ -43,7 +43,7 @@ hahow_homework
 │   │   │   └── test_route.js
 │   │   └── util.js
 │   ├── start.sh
-│   └── test                         ＃ hero api 測試腳本
+│   └── test                         # hero api 測試腳本
 │       ├── fake_data_generator.js
 │       ├── fake_data.js
 │       ├── hero_api_test.js
