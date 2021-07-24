@@ -152,7 +152,19 @@ pm2 start auto_cron.js
 - 功能簡介：
 
    使 node.js server 能連上 redis
+   
+### chai && chai-http
 
+- 功能簡介：
+
+   chai 提供 BDD 語法測試用的斷言庫（Assertion Library）。斷言庫是一種判斷工具，明確地將預測結果指出。若實際結果和預測不同，就是測試有誤。
+   chai-http 則是與 assertions 一同運作，進行HTTP integration tests。
+
+- 個人理解＆感想：
+
+  有了 chai 和 chai-http，我就能針對 api 測試 http request 有沒有預期中的 response code 和 data。
+  
+## 你對於所有使用到的第三方服務和其他工具的理解，以及他們的功能簡介
 
 
 
