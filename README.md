@@ -1,4 +1,4 @@
-# Hahow Recruiment Project
+··# Hahow Recruiment Project
 
 Demo Server URL: <https://iwantthisjobsobad.tw/>
 
@@ -84,6 +84,17 @@ pm2 start auto_cron.js
 ### API server 的架構邏輯
 <img width="1006" alt="截圖 2021-07-24 上午11 14 06" src="https://user-images.githubusercontent.com/77141019/126862829-dd43dd0a-c716-412e-9aa6-d70f43ee1286.png">
 
+## 你對於所有使用到的第三方 library 的理解，以及他們的功能簡介
+
+- Framework: React with React Hooks
+- UI Library： [Styled Components](https://styled-components.com/)、[Ant Design](https://ant.design/)
+- Router： [React Router Dom](https://reactrouter.com/web/guides/quick-start)
+- HTTP： [Axios](https://axios-http.com/docs/intro)
+- Bundler: [Webpack](https://webpack.js.org/)
+- Compiler: [Babel](https://babeljs.io/)
+- Code Splitting: [React Loadable](https://github.com/jamiebuilds/react-loadable)
+- Unit Test: [Jest](https://jestjs.io/), [moxios](https://github.com/axios/moxios), [testing-library](https://testing-library.com/)
+- Coding Style： [Eslint](https://eslint.org/)
 
 
 
