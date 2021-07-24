@@ -206,6 +206,14 @@ pm2 start auto_cron.js
 
   我本身最近對於 docker 一直都很有興趣(因爲大家一直說輕量級？很潮？很方便？)，所以決定藉由這個小專案來玩看看 docker，首先看了很多介紹， 就我的理解，docker 的目的是為了讓開發者都能於統一環境開發、測試部署應用程式，那又進一步會將 docker 與 VM 做比較，最大的不同是docker 是用原生的 linux kernel 既有的功能來切割劃分 container 所需資料，而 VM 會需要另外切割空間給 guest OS，並且，由於 host OS 還需要透過 hypervisor 來轉譯 guest OS 每一步的操作，電腦負擔會比較大，我曾經看到一個很棒的比喻，VM 是 'virtualizing hardware'，而 docker 是 'virtualizing operating system'，下面遇到的困難會再進一步帶入我實作上遇到的困難與感想。
 
+###你在程式碼中寫註解的原則，遇到什麼狀況會寫註解
 
+我寫註解的原則大致上分為：
 
+- if else 的 case 的判斷：
+  
+  在這次專案內，當 server 拿取資料時，會先判斷 redis 有沒有資料，沒有的話就從 mysql 讀取，這種不同狀況會進行不同行為的，我會寫註解，當然其他 if else case 若是從條件判斷很清楚，我就不會特別註解，像是是不是會員，有沒有 hero ID 等等的情況。
 
+- 特殊步驟處理：
+  
+  若是有的步驟沒有變數名稱或是函數名稱補助說明意義，我便會寫註解，像是明明資料 profile 內的 key 是 int ，為何 mysql 存取時是 inte ，我就會加上註解說明 int 是 mysql 保留字而無法使用，並改用 inte。
