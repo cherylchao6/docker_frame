@@ -65,7 +65,7 @@ docker network create interview-net
 ```bash
 docker-compose up
 ```
-10.為選擇性步驟，為了能定期檢查最新的官方 hero 資料是否與資料庫相同，請跑定期爬蟲腳本，目前預設的爬蟲頻率為每天一次，您可以於 .env 檔客製化您喜愛的更新頻率
+10. 為選擇性步驟，為了能定期檢查最新的官方 hero 資料是否與資料庫相同，請跑定期爬蟲腳本，目前預設的爬蟲頻率為每天一次，您可以於 .env 檔客製化您喜愛的更新頻率
 ```bash
 docker exec -it nodejsserver bash
 pm2 start auto_cron.js
@@ -165,6 +165,27 @@ pm2 start auto_cron.js
   有了 chai 和 chai-http，我就能針對 api 測試 http request 有沒有預期中的 response code 和 data。
   
 ## 你對於所有使用到的第三方服務和其他工具的理解，以及他們的功能簡介
+
+### AWS EC2
+
+- 功能簡介：
+
+   讓您建立雲端虛擬伺服器，可客製化作業系統，容量限制，對應 IP 等等。 
+
+- 個人理解＆感想：
+
+  我也很老實的說我沒有用過其他服務來架設我的 server ，但我覺得 AWS EC2 服務很多，像是你可以預先設置好 AMI 當作建立 server 的模板，可用於處理高流量時的 auto-scaling (或是自己把不小心把 server 搞爆的時候不用砍掉重來？ＸＤ）
+
+### AWS RDS
+
+- 功能簡介：
+
+   讓您於雲端管理 relational database 
+
+- 個人理解＆感想：
+
+  在沒有使用 RDS 之前，我只能很土炮的每次都要先把 mysql 當下的 table 都 dump 出來，再到雲端 import ，但自從有了 AWS RDS 的服務，我的 local 端和 雲端 server 都能管理同一個資料庫，另外還有一個好處是，若是有 server 水平擴展的需求，有了 AWS RDS ，所有 serverv 間同步資料庫相對簡易
+
 
 
 
