@@ -54,9 +54,14 @@ hahow_homework
 └── redis
     └── dockerfile
 ```
-4. 請將 hero_web.sql import 至您的 RDS，並將 schema 命名為 hero_web
-5. 在 hahow_homework/nodejsapp 內，依照 .env-template 檔，新增 .env 檔
-6. 於 hahow_homework 資料夾執行
+4. 請於 hahow_homework/nginx 的 default.conf 檔，port 80 及 443 的 server_name 填上您的網域名稱
+5. 請將 hero_web.sql import 至您的 RDS，並將 schema 命名為 hero_web
+6. 在 hahow_homework/nodejsapp 內，依照 .env-template 檔，新增 .env 檔
+7. 創建連接各 container 所需的 network
+```bash
+docker network create interview-net
+```
+9. 於 hahow_homework 資料夾啟動 compose 檔以創建 container，並用 network 相連
 ```bash
 docker-compose up
 ```
