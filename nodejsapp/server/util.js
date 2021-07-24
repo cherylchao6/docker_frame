@@ -1,6 +1,6 @@
 const fetch = require("node-fetch");
 const { insertHeroes } = require("../server/models/hero_model.js");
-
+const { getCache, client } = require("./models/redis");
 async function verifyMember (req, res, next) {
   const { name, password } = req.headers;
   // check if there are name and password in request header
@@ -87,7 +87,41 @@ async function getHerosProfile (arr) {
   return heroProfiles;
 }
 
+// 建立rate limiter限制10秒內最多打10次api
+async function rateLimiter (req, res, next) {
+  const clientip = req.connection.remoteAddress;
+  const value = await getCache(clientip);
+  // 10分鐘內第一次登入
+  if (value === null) {
+    const data = {
+      count: 1,
+      time: new Date().getTime()
+    };
+    client.setex(clientip, 10, JSON.stringify(data));
+    next();
+    return;
+  }
+  // 10秒內非第一次打api
+  const parsedValue = JSON.parse(value);
+  // 如果api次數比10大，跟使用者說還要多久才能進來
+  if (parsedValue.count >= 10) {
+    const time = JSON.parse(value).time;
+    const expiredTime = time + 10000;
+    const clock = new Date(expiredTime);
+    const message = {
+      message: `請於${clock}再造訪`
+    };
+    res.status(429).send(message);
+  } else {
+    // 如果api次數比10小，要更新打api次數
+    parsedValue.count += 1;
+    client.set(clientip, JSON.stringify(parsedValue), "KEEPTTL");
+    next();
+  }
+}
+
 module.exports = {
   verifyMember,
-  insertApiData
+  insertApiData,
+  rateLimiter
 };
