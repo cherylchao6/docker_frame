@@ -1,4 +1,4 @@
-··# Hahow Recruiment Project
+# Hahow Recruiment Project
 
 Demo Server URL: <https://iwantthisjobsobad.tw/>
 
@@ -83,6 +83,10 @@ pm2 start auto_cron.js
 
 ### API server 的架構邏輯
 <img width="1006" alt="截圖 2021-07-24 上午11 14 06" src="https://user-images.githubusercontent.com/77141019/126862829-dd43dd0a-c716-412e-9aa6-d70f43ee1286.png">
+
+### 其他我覺得很酷的功能和邊際情況的處理
+我有使用 redis 來實作 rate limiter middleware，目前預設是 10秒內最多打10下，故請勿頻率過高的送出請求ＸＤ
+另外若是沒有該 hero ID 的資料，我也會跟使用者說該英雄不存在
 
 ## 你對於所有使用到的第三方 library 的理解，以及他們的功能簡介
 
@@ -217,3 +221,42 @@ pm2 start auto_cron.js
 - 特殊步驟處理：
   
   若是有的步驟沒有變數名稱或是函數名稱補助說明意義，我便會寫註解，像是明明資料 profile 內的 key 是 int ，為何 mysql 存取時是 inte ，我就會加上註解說明 int 是 mysql 保留字而無法使用，並改用 inte。
+
+## 在這份專案中你遇到的困難、問題，以及解決的方法
+
+### docker container 間的連接
+
+一開始我其實有採用 link 的方式將創 container 並與其相連
+```bash
+docker run -d -p 80:80 --link nodejsserver --name nginx nginx
+```
+
+但我發現奧這樣變成我每次只要有改 code ，我都要分別把 container 刪掉，然後再重新分別 build ，再仔細研究了一番，才改成用 compose 檔，由於我後來想試著創第三個 redis container ，我不確定在 compose 檔要 link 哪個 container 或是全部都要 link (整個在摸索階段......)，所以屏棄了 link 的方法 ，再繼續找到了 networks 的方法，根據官方文件說，它可以讓 container 間彼此都連得到，好像非常符合我的需求，而且還可以自己創一個專屬的 network ，就按照官網文件試著操作，但當我 docker-compose up 後，他又說 nginx 找不到對應 server，再仔細研究後，才發現 compose file 內要加上 depends on 的屬性，我就試著在 nginx container 設定加上 depends_on: - nodejs-app，終於就成功了了！！！（超級有成就感的！好難ＱＱＱＱ）。
+接著就試著在 compose 檔加上 redis container ， 好我也同上應該是也要 depends_on: - nodejs-app，結果一啟動，我的 nodejs server 說 redis port 拒絕連線（當下真的超級迷惘），我便想到幾個可能的原因，第一個是啟動的順序，我就把 redis container 的設定移動到 compose 檔的第一個，結果沒有解決問題，我就再把腦筋動到 depends_on 這個屬性，仔細想想好像應該是 nodejs server 要depends on redis 才對，我再改！結果問題還是沒有解決(此時開始覺得為什麼我要挖坑給自己跳？做什麼docker?)，只好看看 youtuber 介紹 container 間連線的原理的影片休息一下，突然被一句話當頭棒喝「you can regards every container as an isolated micro computer, if you don't set up the hostname, the default value is localhost.」 ，仔細想想！我在 node.js 內引用 redis 時的 code 為
+```bash
+const client = redis.createClient({port: 6379});
+```
+平常可以運作是因為我的電腦有裝 redis ，並且 redis 官網說 host 的參數預設為 localhost，但對於我的虛擬環境內的 node.js server 來說，他是要連到 redis container，而且該 container 我有設定自己的 hostname ，所以我試著改成
+```bash
+const client = redis.createClient({
+  port: 6379,
+  host: "redis"
+});
+```
+謝天謝地！可喜可賀！終於跑起來了(真的有感動到哭，docker 搞了四天ＱＱＱＱＱ)
+
+
+### node.js server dockerfile 的啟動需要不只一個指令
+一開始我採用 CMD ["node", "app.js"]，但我的設計邏輯為第一次啟動 server 時，同時也要執行拿取英雄資料並插入資料庫的腳本， 我也花了好一番功夫（畢竟我跟 shell 真的好不熟，只會一些基本的指令，研究的時候真的霧裡看花），才找到可以另外建立一個 start.sh 的檔案，然後再 CMD ["bash", "start.sh"]，等於是開啟了一個 shell 來執行該腳本，但又遇到了問題，當我第一步 node app.js時，他就會佔住該 shell ，沒辦法
+一開始我採用 CMD ["node", "app.js"]，但我的設計邏輯為第一次啟動 server 時，同時也要執行拿取英雄資料並插入資料庫的腳本， 我也花了好一番功夫（畢竟我跟 shell 真的好不熟，只會一些基本的指令，研究的時候真的霧裡看花），才找到可以另外建立一個 start.sh 的檔案，然後再 CMD ["bash", "start.sh"]，等於是開啟了一個 shell 來執行該腳本，但又遇到了問題，當我第一步 node app.js時，他就會佔住該 shell ，沒半ㄈㄚㄐ
+一開始我採用 CMD ["node", "app.js"]，但我的設計邏輯為第一次啟動 server 時，同時也要執行拿取英雄資料並插入資料庫的腳本， 我也花了好一番功夫（畢竟我跟 shell 真的好不熟，只會一些基本的指令，研究的時候真的霧裡看花），才找到可以另外建立一個 start.sh 的檔案，然後再 CMD ["bash", "start.sh"]，等於是開啟了一個 shell 來執行該腳本，很開心的試試看
+```bash
+node app.js
+node insert_db.js 
+});
+```
+但又遇到了問題，當我第一步 node app.js時，他就會佔住該 shell ，沒辦法接著執行我的 insert_db.js ，為了讓第一個指令能夠在背景執行，我又思考了一番，找到可以使用 pm2 ，不但能讓指令在背景執行，同時我每次進去虛擬環境時，都可以使用 pm2 log debug
+
+## 總結
+
+真的很謝謝有這個專案讓我能在時間壓力促使下，研究並實作 docker，不然這段期間準備許多面試，都只能口頭闡述概念，沒辦法再有更深入的討論，另外也讓我體驗了爬蟲，並思考 redis 快取和 RDB 資料存取的時間點設計，這對我來說都是一個禮拜內學到爆多的寶貴經驗！
