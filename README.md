@@ -7,7 +7,7 @@ Recruiment Project by Hahow [BackEnd](https://github.com/hahow/hahow-recruit/blo
 ## 我們該如何跑起這個 server
 
 1. 於您的雲端 server 安裝 git 及 docker
-2.將我的作品``````clone下來
+2.將我的作品clone下來
 ```bash
 git clone https://github.com/cherylchao6/hahow_homework.git
 ```
