@@ -46,7 +46,7 @@ hahow_homework
 │   │   └── util.js
 │   ├── start.sh
 │   └── test                         # hero api 測試腳本
-│       ├── fake_data_generator.js
+│       ├── ake_data_generator.js
 │       ├── fake_data.js
 │       ├── hero_api_test.js
 │       ├── set_up.js
@@ -65,4 +65,23 @@ docker network create interview-net
 ```bash
 docker-compose up
 ```
+10.為選擇性步驟，為了能定期檢查最新的官方 hero 資料是否與資料庫相同，請跑定期爬蟲腳本，目前預設的爬蟲頻率為每天一次，您可以於 .env 檔客製化您喜愛的更新頻率
+```bash
+docker exec -it nodejsserver bash
+pm2 start auto_cron.js
+```
+
+
+## 專案的架構、Web 的架構邏輯
+
+### 專案的設計邏輯
+
+由於我發現只要有透過第三方api拿到資料，再整理再回傳，我的 server response 的效率不彰，尤其若是還要第三方驗證帳號密碼，故採用於啟動 server 時，先從第三方api拿到所有資料，整理成對應的資料格式並存至 mysql，另外為了再加速資料拿取速度，也將資料存至 redis ，當使用者送 request 至我的 server 時，會先從 redis 拿取資料，若 redis 沒有資料 (由於我有定期爬蟲，難以保證若剛好在更新 redis，會拿不到資料)，可再進一步從 sql 拿取，以確保一定有資料回傳。另外我也思考過，帳號密碼是否我的 server 自己驗證就好，但考量第三方資料存取權限，不應該由我來決定，所以還是透過第三方認證的方式，再給予使用者相對應的資料。
+
+<img width="977" alt="截圖 2021-07-24 下午4 23 27" src="https://user-images.githubusercontent.com/77141019/126862595-0d70ca7e-4328-494f-8c39-b3ab113fe1d9.png">
+
+
+
+
+
 
