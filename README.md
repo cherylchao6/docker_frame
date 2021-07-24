@@ -30,6 +30,8 @@ hahow_homework
 │   ├── node_modules
 │   ├── package.json
 │   ├── package-lock.json
+│   ├── .env
+│   ├── .env-template
 │   ├── server
 │   │   ├── controllers
 │   │   │   ├── hero_controller.js
@@ -51,5 +53,11 @@ hahow_homework
 │       └── teardown.js
 └── redis
     └── dockerfile
+```
+3. 請將 hero_web.sql import 至您的 RDS，並將 schema 命名為 hero_web
+4. 在 hahow_homework/nodejsapp 內，依照 .env-template 檔，新增 .env 檔
+5. 於 hahow_homework 資料夾執行
+```bash
+docker-compose up
 ```
 
