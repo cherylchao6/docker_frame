@@ -86,16 +86,72 @@ pm2 start auto_cron.js
 
 ## 你對於所有使用到的第三方 library 的理解，以及他們的功能簡介
 
-- Framework: React with React Hooks
-- UI Library： [Styled Components](https://styled-components.com/)、[Ant Design](https://ant.design/)
-- Router： [React Router Dom](https://reactrouter.com/web/guides/quick-start)
-- HTTP： [Axios](https://axios-http.com/docs/intro)
-- Bundler: [Webpack](https://webpack.js.org/)
-- Compiler: [Babel](https://babeljs.io/)
-- Code Splitting: [React Loadable](https://github.com/jamiebuilds/react-loadable)
-- Unit Test: [Jest](https://jestjs.io/), [moxios](https://github.com/axios/moxios), [testing-library](https://testing-library.com/)
-- Coding Style： [Eslint](https://eslint.org/)
+### dotenv
 
+- 功能簡介：
+
+  可協助你設定環境變數的套件
+
+- 個人理解＆感想：
+
+  在部署 server 時，不論是測試或正式開發環境會有許多不同的環境變數設定，有的甚至是機密資料，比如說 hostname、port和帳號密碼等等，都可放置 env 檔統一管理，或是其他你想要彈性設定環境變數，像是我這次的小專案，爬蟲頻率也寫至 env 檔，這樣就不用要更改時，都還要到相對應的檔案更改。
+
+### express
+
+- 功能簡介：
+  
+  node 的 web 框架
+
+- 個人理解＆感想：
+
+  我很老實說打從一開始使用 node 寫後端的時候，教學的第一步就是要 npm install express XD ，所以我沒有辦法比較有沒有使用該框架的區別，但是看了網路資料後，我的理解是，若是沒有 express ，就不能針對額外的不同的HTTP方法(例如：GET, POST, DELETE等)增加特定的處理，而且許多參數都要自己設定，code 會變很冗長，有了 express ，許多整套的功能皆包裝好，我們只要引用相對應的參數即可。
+
+
+### mysql2
+
+- 功能簡介：
+
+  使 node.js server 能連上 mysql DB
+
+- 個人理解＆感想：
+
+  之所以會用這個新版的套件而不是 mysqljs/mysql，是因為裡面有許多實用的功能，如自動 promisify funciton ，或是有 format 可以檢查 query 語句是否正確
+
+### node-cron
+
+- 功能簡介：
+
+  在 node.js 裡能用 crontab 語法來撰寫自動任務腳本
+
+- 個人理解＆感想：
+  
+  為了能定期將第三方 api 資料與 db 比對，我才會使用該 library 來設定自動執行腳本的時間點，不過這是我第一次體驗自動爬蟲，滿有趣的！
+  
+### node-fetch
+
+- 功能簡介：
+
+  在 node.js 裡能用瀏覽器的 fetch 語法對目標 api 送出請求
+
+- 個人理解＆感想：
+  
+  因為自己之前的專案前端寫了大量的 fetch ，比較習慣該語法，故使用此套件
+  
+### nodemon
+
+- 功能簡介：
+
+   當偵測到 node.js 檔案有變化時，會自動重啟 node application
+
+- 個人理解＆感想：
+  
+  這樣就不用每次有修改後都還要 node app.js ，很方便
+
+### redis
+
+- 功能簡介：
+
+   使 node.js server 能連上 redis
 
 
 
