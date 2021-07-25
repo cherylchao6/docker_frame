@@ -1,4 +1,4 @@
-`// data for insert mysql test schema
+// data for insert mysql test schema
 const mysqlHeroes = [
   [
     "1",
