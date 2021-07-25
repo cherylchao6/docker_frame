@@ -226,7 +226,7 @@ pm2 start auto_cron.js
 
 ### hahow api 拿回的資料時好時壞
 
-這方面我真的苦惱很久，像是一開始我沒有打算用到自己的資料庫，想說每次我的server接受到 request，就直接打 hahow api 再把資料整理成相對應的 response 格式回傳即可，但是我發現不是沒每次 hahow api 回來的資料都是對的，當然我可以寫條件判斷式，資料格式不對的話當下再重打一次 hahow api ，但是變成我的 server 給 client 的 response 回應會很慢，所以才想了很久採用第一次啟動 server 時先把資料全部存進自己的 redis 和 mysql(當然也會寫條件判斷式，資料是正確的才存)，然後再另外寫自動化爬蟲，來定期檢查 db 資料是否與 hahow api 資料有同步。
+這方面我真的苦惱很久，像是一開始我沒有打算用到自己的資料庫，想說每次我的server接受到 request，就直接打 hahow api 再把資料整理成相對應的 response 格式回傳即可，但是我發現不是每次 hahow api 回來的資料都是對的，當然我可以寫條件判斷式，資料格式不對的話當下再重打一次 hahow api ，但是變成我的 server 給 client 的 response 回應會很慢，所以才想了很久採用第一次啟動 server 時先把資料全部存進自己的 redis 和 mysql(當然也會寫條件判斷式，資料是正確的才存)，然後再另外寫自動化爬蟲，來定期檢查 db 資料是否與 hahow api 資料有同步。
 
 
 ### docker container 間的連接
