@@ -37,24 +37,29 @@ async function insertApiData () {
   })
     .then(async (res) => {
       const data = await res.json();
-      // insert into mysql
-      const heroesData = [];
-      const apiHeroIdArr = [];
-      const today = new Date();
-      const date = today.toISOString().substring(0, 10);
-      for (const i in data) {
-        const heroData = [];
-        heroData.push(data[i].id);
-        heroData.push(data[i].name);
-        heroData.push(data[i].image);
-        heroData.push(date);
-        heroesData.push(heroData);
-        // for profile api
-        apiHeroIdArr.push(data[i].id);
+      // in case there is unwanted data format of returned api data
+      if (data.length && data[0].id) {
+        // insert into mysql
+        const heroesData = [];
+        const apiHeroIdArr = [];
+        const today = new Date();
+        const date = today.toISOString().substring(0, 10);
+        for (const i in data) {
+          const heroData = [];
+          heroData.push(data[i].id);
+          heroData.push(data[i].name);
+          heroData.push(data[i].image);
+          heroData.push(date);
+          heroesData.push(heroData);
+          // for profile api
+          apiHeroIdArr.push(data[i].id);
+        }
+        // iterate apiHeroIdArr and get profile for each hero
+        const heroProfiles = await getHerosProfile(apiHeroIdArr);
+        await insertHeroes(heroesData, heroProfiles);
+      } else {
+        insertApiData();
       }
-      // iterate apiHeroIdArr and get profile for each hero
-      const heroProfiles = await getHerosProfile(apiHeroIdArr);
-      await insertHeroes(heroesData, heroProfiles);
     })
     .catch((err) => {
       console.log(err);
@@ -65,7 +70,7 @@ async function getHerosProfile (arr) {
   const today = new Date();
   const date = today.toISOString().substring(0, 10);
   const heroProfiles = [];
-  for (const i in arr) {
+  for (let i = 0; i < arr.length; i++) {
     const heroProfile = [];
     heroProfile.push(arr[i]);
     await fetch(`https://hahow-recruit.herokuapp.com/heroes/${arr[i]}/profile`, {
@@ -73,12 +78,17 @@ async function getHerosProfile (arr) {
     })
       .then(async (res) => {
         const profileData = await res.json();
-        heroProfile.push(profileData.str);
-        heroProfile.push(profileData.int);
-        heroProfile.push(profileData.agi);
-        heroProfile.push(profileData.luk);
-        heroProfile.push(date);
-        heroProfiles.push(heroProfile);
+        // in case there is unwanted data format of returned api data
+        if (profileData.str) {
+          heroProfile.push(profileData.str);
+          heroProfile.push(profileData.int);
+          heroProfile.push(profileData.agi);
+          heroProfile.push(profileData.luk);
+          heroProfile.push(date);
+          heroProfiles.push(heroProfile);
+        } else {
+          i--;
+        }
       })
       .catch((err) => {
         console.log(err);

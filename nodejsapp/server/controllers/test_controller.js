@@ -7,7 +7,6 @@ const client = redis.createClient({
 const test = async (req, res, next) => {
   try {
     const clientip = req.connection.remoteAddress;
-    // eslint-disable-next-line node/handle-callback-err
     client.get(clientip, function (err, value) {
       if (!value) {
         client.setex(clientip, 10, "1");
