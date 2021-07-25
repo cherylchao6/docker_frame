@@ -236,7 +236,7 @@ pm2 start auto_cron.js
 docker run -d -p 80:80 --link nodejsserver --name nginx nginx
 ```
 
-但我發現奧這樣變成我每次只要有改 code ，我都要分別把 container 刪掉，然後再重新分別 build ，再仔細研究了一番，才改成用 compose 檔，由於我後來想試著創第三個 redis container ，我不確定在 compose 檔要 link 哪個 container 或是全部都要 link (整個在摸索階段......)，所以屏棄了 link 的方法 ，再繼續找到了 networks 的方法，根據官方文件說，它可以讓 container 間彼此都連得到，好像非常符合我的需求，而且還可以自己創一個專屬的 network ，就按照官網文件試著操作，但當我 docker-compose up 後，他又說 nginx 找不到對應 server，再仔細研究後，才發現 compose file 內要加上 depends on 的屬性，我就試著在 nginx container 設定加上 depends_on: - nodejs-app，終於就成功了了！！！（超級有成就感的！好難ＱＱＱＱ）。
+但我發現這樣變成我每次只要有改 code ，我都要分別把 container 刪掉，然後再重新分別 build ，再仔細研究了一番，才改成用 compose 檔，由於我後來想試著創第三個 redis container ，我不確定在 compose 檔要 link 哪個 container 或是全部都要 link (整個在摸索階段......)，所以屏棄了 link 的方法 ，再繼續找到了 networks 的方法，根據官方文件說，它可以讓 container 間彼此都連得到，好像非常符合我的需求，而且還可以自己創一個專屬的 network ，就按照官網文件試著操作，但當我 docker-compose up 後，他又說 nginx 找不到對應 server，再仔細研究後，才發現 compose file 內要加上 depends on 的屬性，我就試著在 nginx container 設定加上 depends_on: - nodejs-app，終於就成功了了！！！（超級有成就感的！好難ＱＱＱＱ）。
 接著就試著在 compose 檔加上 redis container ， 好我也同上應該是也要 depends_on: - nodejs-app，結果一啟動，我的 nodejs server 說 redis port 拒絕連線（當下真的超級迷惘），我便想到幾個可能的原因，第一個是啟動的順序，我就把 redis container 的設定移動到 compose 檔的第一個，結果沒有解決問題，我就再把腦筋動到 depends_on 這個屬性，仔細想想好像應該是 nodejs server 要depends on redis 才對，我再改！結果問題還是沒有解決(此時開始覺得為什麼我要挖坑給自己跳？做什麼docker?)，只好看看 youtuber 介紹 container 間連線的原理的影片休息一下，突然被一句話當頭棒喝「you can regards every container as an isolated micro computer, if you don't set up the hostname, the default value is localhost.」 ，仔細想想！我在 node.js 內引用 redis 時的 code 為
 ```bash
 const client = redis.createClient({port: 6379});
