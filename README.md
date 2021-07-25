@@ -210,7 +210,7 @@ pm2 start auto_cron.js
 
   我本身最近對於 docker 一直都很有興趣(因爲大家一直說輕量級？很潮？很方便？)，所以決定藉由這個小專案來玩看看 docker，首先看了很多介紹， 就我的理解，docker 的目的是為了讓開發者都能於統一環境開發、測試部署應用程式，那又進一步會將 docker 與 VM 做比較，最大的不同是docker 是用原生的 linux kernel 既有的功能來切割劃分 container 所需資料，而 VM 會需要另外切割空間給 guest OS，並且，由於 host OS 還需要透過 hypervisor 來轉譯 guest OS 每一步的操作，電腦負擔會比較大，我曾經看到一個很棒的比喻，VM 是 'virtualizing hardware'，而 docker 是 'virtualizing operating system'，下面遇到的困難會再進一步帶入我實作上遇到的困難與感想。
 
-###你在程式碼中寫註解的原則，遇到什麼狀況會寫註解
+### 你在程式碼中寫註解的原則，遇到什麼狀況會寫註解
 
 我寫註解的原則大致上分為：
 
