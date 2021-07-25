@@ -72,7 +72,7 @@ pm2 start auto_cron.js
 ```
 
 
-## 專案的架構、Web 的架構邏輯
+## 專案的架構、API server 的架構邏輯
 
 ### 專案的設計邏輯
 
